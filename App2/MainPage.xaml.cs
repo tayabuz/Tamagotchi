@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,6 +32,64 @@ namespace App2
             this.InitializeComponent();
             StartNewGame();
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            
+            Settings GameSettings;
+            if (e.Parameter.ToString() != "")
+            {
+               GameSettings = (Settings)e.Parameter;
+               ApplySettings(GameSettings);
+            }
+
+        }
+        private void ApplySettings(Settings gameSettings)
+        {
+            bool isHintVisibleForSave;
+            Settings.DifficultyLevel difficultyLevelForSave;
+            isHintVisibleForSave = gameSettings.IsHintVisible;
+            difficultyLevelForSave = gameSettings.Difficulty;
+            ChangeHintVisiblity(isHintVisibleForSave);
+            ChangeDifficulty(difficultyLevelForSave);
+        }
+        private void ChangeHintVisiblity(bool isHintVisible)
+        {
+            if (isHintVisible == false)
+            {
+                showHint.Visibility = Visibility.Collapsed;
+                showMoney.Visibility = Visibility.Collapsed;
+            }
+            if (isHintVisible == true)
+            {
+                showMoney.Visibility = Visibility.Visible;
+                showHint.Visibility = Visibility.Visible;
+            }
+
+        }
+        private void ChangeDifficulty(Settings.DifficultyLevel newDifficulty)
+        {
+            if (newDifficulty == Settings.DifficultyLevel.Easy)
+            {
+                Cat.healthCoefficient = 2;
+                Cat.hungerCoefficient = 4;
+                Cat.boredomCoefficient = 5;
+                Cat.touletCoefficient = 3;
+            }
+            if (newDifficulty == Settings.DifficultyLevel.Normal)
+            {
+                Cat.healthCoefficient = 4;
+                Cat.hungerCoefficient = 6;
+                Cat.boredomCoefficient = 7;
+                Cat.touletCoefficient = 5;
+            }
+            if (newDifficulty == Settings.DifficultyLevel.Hard)
+            {
+                Cat.healthCoefficient = 5;
+                Cat.hungerCoefficient = 7;
+                Cat.boredomCoefficient = 8;
+                Cat.touletCoefficient = 6;
+            }
+        }
 
         private void upHealthLevel_Click(object sender, RoutedEventArgs e)
         {
@@ -39,7 +99,6 @@ namespace App2
                 cat.upHealthValue();
                 showHealthLevel.Value = cat.Health;
             }
-
         }
         private void upHungerLevel_Click(object sender, RoutedEventArgs e)
         {
@@ -50,7 +109,6 @@ namespace App2
                 showHungerLevel.Value = cat.Hunger;
             }  
         }
-
         private void upBoredomLevel_Click(object sender, RoutedEventArgs e)
         {
             if (cat.Boredom < Cat.MAX_VALUE)
@@ -74,7 +132,14 @@ namespace App2
             EndGame();
             StartNewGame();
         }
-
+        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
+        }
+        private void aboutDeveloper_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AboutDeveloperPage));
+        }
         private void StartNewGame()
         {
             cat = new Cat();
@@ -109,6 +174,8 @@ namespace App2
             ChangeMoney(man.Money);
             ChangeCondition(cat.Condition);
 
+            ChangeDifficulty(Settings.DifficultyLevel.Easy);
+
         }
         private void EndGame()
         {
@@ -124,8 +191,6 @@ namespace App2
             cat.ConditionChanged -= ChangeCondition;
             man.MoneyChanged -= ChangeMoney;
         }
-
-
         private async void ChangeHealth(int newHealth)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
@@ -160,8 +225,6 @@ namespace App2
                 printConditionMessageMoney.Text = "Количество денег: " + newMoney.ToString();
             });
         }
-        
-
         private async void ChangeCondition(Cat.State newState)
         {
             if (newState == Cat.State.Dead)

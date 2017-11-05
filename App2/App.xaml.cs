@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
 namespace App2
 {
@@ -70,6 +72,7 @@ namespace App2
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+
             }
         }
 
@@ -96,5 +99,6 @@ namespace App2
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
     }
 }

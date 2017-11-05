@@ -18,10 +18,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" >
             <ProgressBar x:Name="showHealthLevel" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
@@ -39,20 +35,18 @@
             <ProgressBar x:Name="showTouletLevel" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             <TextBlock Text="Туалет"></TextBlock>
         </StackPanel>
-        
-        <TextBlock x:Name="printConditionMessageHealth" Grid.Row="4"></TextBlock>
-        <TextBlock x:Name="printConditionMessageHunger" Grid.Row="5"></TextBlock>
-        <TextBlock x:Name="printConditionMessageBoredom" Grid.Row="6"></TextBlock>
-        <TextBlock x:Name="printConditionMessageToulet" Grid.Row="7"></TextBlock>
-
-        <StackPanel Grid.Row="8" Orientation="Horizontal" >
-            <Image x:Name="image" Source="Assets\MoneyPic.png"/>
-            <TextBlock x:Name="printConditionMessageMoney" Grid.Row="8" VerticalAlignment="Center"> </TextBlock>
+        <StackPanel Grid.Row="4" x:Name="showHint">
+            <TextBlock x:Name="printConditionMessageHealth"></TextBlock>
+            <TextBlock x:Name="printConditionMessageHunger"></TextBlock>
+            <TextBlock x:Name="printConditionMessageBoredom"></TextBlock>
+            <TextBlock x:Name="printConditionMessageToulet"></TextBlock>
         </StackPanel>
-
-
-        <TextBlock x:Name="printStateMessage" Grid.Row="9"></TextBlock>
-        <Grid Grid.Row="10">
+        <StackPanel Grid.Row="5" x:Name="showMoney" Orientation="Horizontal" >
+            <Image x:Name="image" Source="Assets\MoneyPic.png"/>
+            <TextBlock x:Name="printConditionMessageMoney" VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+        <TextBlock x:Name="printStateMessage" Grid.Row="6"></TextBlock>
+        <Grid Grid.Row="7">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -64,6 +58,15 @@
             <Button Grid.Column="2" x:Name="upBoredomLevel" Content="Поиграть" HorizontalAlignment="Center" Click="upBoredomLevel_Click"/>
             <Button Grid.Column="3" x:Name="upTouletLevel" Content="Сменить туалет" HorizontalAlignment="Center" Click="upTouletLevel_Click"/>
         </Grid>
-        <Button Grid.Row="11" x:Name="startNewGame" Content="Начать новую игру" HorizontalAlignment="Center" Click="startNewGame_Click"/>
+        <Grid Grid.Row="8">
+            <CommandBar x:Name="commandBarInMainPage">
+                <CommandBar.Content>
+                    <Grid/>
+                </CommandBar.Content>
+                <AppBarButton Icon="ContactInfo" Label="О разработчике" Name="aboutButtonCommandBar" Click="aboutDeveloper_Click"/>
+                <AppBarButton Icon="NewWindow" Label="Новая игра" Name="startNewGameButtonCommandBar" Click="startNewGame_Click"/>
+                <AppBarButton Icon="Setting" Label="Настройки" Name="settingsButtonCommandBar" Click="settingsButton_Click"/>
+            </CommandBar>
+        </Grid>
     </Grid>
 </Page>

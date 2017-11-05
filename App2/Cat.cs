@@ -22,6 +22,11 @@ namespace App2
         private Timer timer;
         const int TIMER_INTERVAL = 3000;
 
+        public static int healthCoefficient;
+        public static int hungerCoefficient;
+        public static int boredomCoefficient;
+        public static int touletCoefficient;
+
         public delegate void PropertyChangeHandler(int newValue);
         public event PropertyChangeHandler HealthChanged;
         public event PropertyChangeHandler HungerChanged;
@@ -39,7 +44,6 @@ namespace App2
             Hunger = MAX_VALUE;
             TimerCallback tm = new TimerCallback(DeteriorationOverTime);
             timer = new Timer(tm, null, 2000, TIMER_INTERVAL);
-
 
         }
         public int Health
@@ -173,10 +177,10 @@ namespace App2
         }
         public void DeteriorationOverTime(object obj)
         {
-            Health = Health - DOWN_NUMBER;
-            Toulet = Toulet - DOWN_NUMBER*2;
-            Hunger = Hunger - DOWN_NUMBER*3;
-            Boredom = Boredom - DOWN_NUMBER*5;
+            Health = Health - DOWN_NUMBER * healthCoefficient;
+            Toulet = Toulet - DOWN_NUMBER * touletCoefficient;
+            Hunger = Hunger - DOWN_NUMBER * hungerCoefficient;
+            Boredom = Boredom - DOWN_NUMBER * boredomCoefficient;
         }
         public bool isCatAlive(State Condition)
         {
